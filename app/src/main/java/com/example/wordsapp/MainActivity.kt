@@ -39,9 +39,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         recyclerView = binding.recyclerView
+
         // Sets the LinearLayoutManager of the recyclerview
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = LetterAdapter()
+        chooseLayout()
+
     }
 
     private fun chooseLayout() {
@@ -69,8 +70,8 @@ class MainActivity : AppCompatActivity() {
 
         menuItem.icon =
             if(isLinearLayoutManager)
-                ContextCompat.getDrawable((this, R.drawable.ic_grid_layout)
-            else ContextCompat.getDrawable((this, R.drawable.ic_linear_layout)
+                ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
+            else ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
     }
 
 
@@ -88,5 +89,27 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_switch_layout -> {
+
+                // Sets isLinearLayoutManager to the opposite value (it's bool)
+                isLinearLayoutManager = !isLinearLayoutManager
+
+                // Sets layout and icon
+                chooseLayout()
+                setIcon(item)
+
+                return true
+            }
+
+            // Otherwise, do nothing and use the core event handling
+
+            // when clauses require that all possible paths be accounted for explicitly.
+            // for instance both the true and false cases if the value is a boolean.
+            // or an else to catch all unhandled cases.
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
 }
